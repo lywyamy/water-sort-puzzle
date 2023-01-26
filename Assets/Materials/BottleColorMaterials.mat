@@ -38,7 +38,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _FillRate: 1.55
+    - _FillRate: 0.4
+    - _ScaleAndRotationRate: 1
     m_Colors:
     - _Color1: {r: 0.35501215, g: 0.7264151, b: 0.26383942, a: 0}
     - _Color2: {r: 0.2627451, g: 0.5585836, b: 0.8, a: 0}

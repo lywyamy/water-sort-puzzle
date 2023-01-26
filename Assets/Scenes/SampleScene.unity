@@ -335,6 +335,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1795452333}
   - component: {fileID: 1795452334}
+  - component: {fileID: 1795452335}
   m_Layer: 0
   m_Name: Bottle
   m_TagString: Untagged
@@ -410,3 +411,52 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1795452335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795452332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ee69621e66374952a7fe08ab13dfcf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bottleColors:
+  - {r: 0.745283, g: 0.18632075, b: 0.18632075, a: 0}
+  - {r: 0.30277678, g: 0.7924528, b: 0.3772568, a: 0}
+  - {r: 0.19063722, g: 0.60661405, b: 0.7924528, a: 0}
+  - {r: 0.7066795, g: 0.25907797, b: 0.7735849, a: 0}
+  bottleMaskSR: {fileID: 530506954}
+  ScaleAndRotationMultiplierCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 90
+      value: 0.47
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 0
+    m_PostInfinity: 0
+    m_RotationOrder: 4
+  FillRateCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  timeToRotate: 1
