@@ -9,6 +9,7 @@ public class BottleController : MonoBehaviour
 
     public AnimationCurve ScaleAndRotationRateCurve;
     public AnimationCurve FillRateCurve;
+    public AnimationCurve RotationSpeedRateCurve;
 
     void Start()
     {
@@ -32,6 +33,7 @@ public class BottleController : MonoBehaviour
     }
 
     public float timeToRotate = 1.0f;
+
     IEnumerator RotateBottle()
     {
         float t = 0;
@@ -47,7 +49,7 @@ public class BottleController : MonoBehaviour
             bottleMaskSR.material.SetFloat("_ScaleAndRotationRate", ScaleAndRotationRateCurve.Evaluate(angleValue));
             bottleMaskSR.material.SetFloat("_FillRate", FillRateCurve.Evaluate(angleValue));
 
-            t += Time.deltaTime;
+            t += Time.deltaTime * RotationSpeedRateCurve.Evaluate(angleValue);
 
             yield return new WaitForEndOfFrame();
         }
@@ -55,5 +57,30 @@ public class BottleController : MonoBehaviour
         transform.eulerAngles = new Vector3(0, 0, angleValue);
         bottleMaskSR.material.SetFloat("_ScaleAndRotationRate", ScaleAndRotationRateCurve.Evaluate(angleValue));
         bottleMaskSR.material.SetFloat("_FillRate", FillRateCurve.Evaluate(angleValue));
+
+        StartCoroutine(RotateBottleBack());
+    }
+
+    IEnumerator RotateBottleBack()
+    {
+        float t = 0;
+        float lerpValue;
+        float angleValue;
+
+        while (t < timeToRotate)
+        {
+            lerpValue = t / timeToRotate;
+            angleValue = Mathf.Lerp(90.0f, 0.0f, lerpValue);
+
+            transform.eulerAngles = new Vector3(0, 0, angleValue);
+            bottleMaskSR.material.SetFloat("_ScaleAndRotationRate", ScaleAndRotationRateCurve.Evaluate(angleValue));
+
+            t += Time.deltaTime;
+
+            yield return new WaitForEndOfFrame();
+        }
+        angleValue = 0.0f;
+        transform.eulerAngles = new Vector3(0, 0, angleValue);
+        bottleMaskSR.material.SetFloat("_ScaleAndRotationRate", ScaleAndRotationRateCurve.Evaluate(angleValue));
     }
 }
