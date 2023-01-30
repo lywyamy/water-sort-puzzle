@@ -123,6 +123,68 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &419347589
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 419347590}
+  m_Layer: 0
+  m_Name: leftRotationPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &419347590
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 419347589}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.25, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1795452333}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &435255686
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 435255687}
+  m_Layer: 0
+  m_Name: rightRotationPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &435255687
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 435255686}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.25, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1795452333}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -356,6 +418,8 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 530506953}
+  - {fileID: 419347590}
+  - {fileID: 435255687}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -424,10 +488,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bottleColors:
-  - {r: 0.89019614, g: 0.37647063, b: 0.82745105, a: 0}
-  - {r: 0.89019614, g: 0.86666673, b: 0.25882354, a: 0}
+  - {r: 0.7830189, g: 0.25485048, b: 0.25485048, a: 0}
+  - {r: 0.7830189, g: 0.25485048, b: 0.25485048, a: 0}
   - {r: 0.2627451, g: 0.5529412, b: 0.7960785, a: 0}
-  - {r: 0.3529412, g: 0.7176471, b: 0.2627451, a: 0}
+  - {r: 0.2627451, g: 0.5529412, b: 0.7960785, a: 0}
   bottleMaskSR: {fileID: 530506954}
   ScaleAndRotationRateCurve:
     serializedVersion: 2
@@ -538,17 +602,21 @@ MonoBehaviour:
     m_PostInfinity: 0
     m_RotationOrder: 4
   fillRates:
-  - 1.55
-  - 0.65
-  - -0.25
+  - -2.5
   - -1.15
-  - -2.05
+  - -0.25
+  - 0.65
+  - 1.55
   ScaleAndRotationRates:
   - 54
   - 71
   - 83
   - 90
-  numberOfColorsInBottle: 2
+  timeToRotate: 1
+  numberOfColorsInBottle: 4
   topColor: {r: 0, g: 0, b: 0, a: 0}
   topColorLayers: 1
-  timeToRotate: 1
+  BottleControllerRef: {fileID: 0}
+  justThisBottle: 1
+  leftRotationPoint: {fileID: 0}
+  rightRotationPoint: {fileID: 0}
