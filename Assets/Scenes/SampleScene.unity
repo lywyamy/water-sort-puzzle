@@ -537,4 +537,18 @@ MonoBehaviour:
     m_PreInfinity: 0
     m_PostInfinity: 0
     m_RotationOrder: 4
+  fillRates:
+  - 1.55
+  - 0.65
+  - -0.25
+  - -1.15
+  - -2.05
+  ScaleAndRotationRates:
+  - 54
+  - 71
+  - 83
+  - 90
+  numberOfColorsInBottle: 2
+  topColor: {r: 0, g: 0, b: 0, a: 0}
+  topColorLayers: 1
   timeToRotate: 1

@@ -11,9 +11,23 @@ public class BottleController : MonoBehaviour
     public AnimationCurve FillRateCurve;
     public AnimationCurve RotationSpeedRateCurve;
 
+    public float[] fillRates;
+    public float[] ScaleAndRotationRates;
+
+    private int rotationIndex = 0;
+
+    [Range(0, 4)]
+    public int numberOfColorsInBottle = 4;
+
+    public Color topColor;
+    public int topColorLayers = 1;
+
+
     void Start()
     {
+        bottleMaskSR.material.SetFloat("_FillRate", fillRates[numberOfColorsInBottle]);
         UpdateColorsOnShader();
+        UpdateTopColorValues();
     }
 
     void Update()
@@ -47,7 +61,12 @@ public class BottleController : MonoBehaviour
 
             transform.eulerAngles = new Vector3(0, 0, angleValue);
             bottleMaskSR.material.SetFloat("_ScaleAndRotationRate", ScaleAndRotationRateCurve.Evaluate(angleValue));
-            bottleMaskSR.material.SetFloat("_FillRate", FillRateCurve.Evaluate(angleValue));
+
+            if (fillRates[numberOfColorsInBottle] > FillRateCurve.Evaluate(angleValue))
+            {
+                bottleMaskSR.material.SetFloat("_FillRate", FillRateCurve.Evaluate(angleValue));
+
+            }
 
             t += Time.deltaTime * RotationSpeedRateCurve.Evaluate(angleValue);
 
@@ -82,5 +101,51 @@ public class BottleController : MonoBehaviour
         angleValue = 0.0f;
         transform.eulerAngles = new Vector3(0, 0, angleValue);
         bottleMaskSR.material.SetFloat("_ScaleAndRotationRate", ScaleAndRotationRateCurve.Evaluate(angleValue));
+    }
+
+    void UpdateTopColorValues()
+    {
+        if (numberOfColorsInBottle != 0)
+        {
+            topColorLayers = 1;
+            topColor = bottleColors[numberOfColorsInBottle - 1];
+
+            if (numberOfColorsInBottle == 4)
+            {
+                if (bottleColors[3].Equals(bottleColors[2]))
+                {
+                    topColorLayers = 2;
+
+                    if (bottleColors[2].Equals(bottleColors[1]))
+                    {
+                        topColorLayers = 3;
+
+                        if (bottleColors[1].Equals(bottleColors[0]))
+                        {
+                            topColorLayers = 4;
+                        }
+                    }
+                }
+            }
+            else if (numberOfColorsInBottle == 3)
+            {
+                if (bottleColors[2].Equals(bottleColors[1]))
+                {
+                    topColorLayers = 2;
+
+                    if (bottleColors[1].Equals(bottleColors[0]))
+                    {
+                        topColorLayers = 3;
+                    }
+                }
+            }
+            else if (numberOfColorsInBottle == 2)
+            {
+                if (bottleColors[1].Equals(bottleColors[0]))
+                {
+                    topColorLayers = 2;
+                }
+            }
+        }
     }
 }
