@@ -57,7 +57,7 @@ public class BottleController : MonoBehaviour
         while (t < timeToRotate)
         {
             lerpValue = t / timeToRotate;
-            angleValue = Mathf.Lerp(0.0f, 90.0f, lerpValue);
+            angleValue = Mathf.Lerp(0.0f, ScaleAndRotationRates[rotationIndex], lerpValue);
 
             transform.eulerAngles = new Vector3(0, 0, angleValue);
             bottleMaskSR.material.SetFloat("_ScaleAndRotationRate", ScaleAndRotationRateCurve.Evaluate(angleValue));
@@ -72,10 +72,12 @@ public class BottleController : MonoBehaviour
 
             yield return new WaitForEndOfFrame();
         }
-        angleValue = 90.0f;
+        angleValue = ScaleAndRotationRates[rotationIndex];
         transform.eulerAngles = new Vector3(0, 0, angleValue);
         bottleMaskSR.material.SetFloat("_ScaleAndRotationRate", ScaleAndRotationRateCurve.Evaluate(angleValue));
         bottleMaskSR.material.SetFloat("_FillRate", FillRateCurve.Evaluate(angleValue));
+
+        numberOfColorsInBottle -= topColorLayers;
 
         StartCoroutine(RotateBottleBack());
     }
@@ -89,7 +91,7 @@ public class BottleController : MonoBehaviour
         while (t < timeToRotate)
         {
             lerpValue = t / timeToRotate;
-            angleValue = Mathf.Lerp(90.0f, 0.0f, lerpValue);
+            angleValue = Mathf.Lerp(ScaleAndRotationRates[rotationIndex], 0.0f, lerpValue);
 
             transform.eulerAngles = new Vector3(0, 0, angleValue);
             bottleMaskSR.material.SetFloat("_ScaleAndRotationRate", ScaleAndRotationRateCurve.Evaluate(angleValue));
@@ -98,6 +100,7 @@ public class BottleController : MonoBehaviour
 
             yield return new WaitForEndOfFrame();
         }
+        UpdateTopColorValues();
         angleValue = 0.0f;
         transform.eulerAngles = new Vector3(0, 0, angleValue);
         bottleMaskSR.material.SetFloat("_ScaleAndRotationRate", ScaleAndRotationRateCurve.Evaluate(angleValue));
@@ -146,6 +149,8 @@ public class BottleController : MonoBehaviour
                     topColorLayers = 2;
                 }
             }
+
+            rotationIndex = 3 - (numberOfColorsInBottle - topColorLayers);
         }
     }
 }
