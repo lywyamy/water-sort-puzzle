@@ -26,7 +26,6 @@ public class BottleController : MonoBehaviour
     public int topColorLayers = 1;
 
     public BottleController BottleControllerRef;
-    public bool justThisBottle = false;
     private int numerberOfColorsToTransfer = 0;
 
     public Transform leftRotationPoint;
@@ -50,25 +49,7 @@ public class BottleController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.P) && justThisBottle)
-        {
-            UpdateTopColorValues();
 
-            if (BottleControllerRef.FillBottleCheck(topColor))
-            {
-                ChooseRotationPointAndDirection();
-                numerberOfColorsToTransfer = Mathf.Min(topColorLayers, 4 - BottleControllerRef.numberOfColorsInBottle);
-
-                for (int i = 0; i < numerberOfColorsToTransfer; i++)
-                {
-                    BottleControllerRef.bottleColors[BottleControllerRef.numberOfColorsInBottle + i] = topColor;
-                }
-
-                BottleControllerRef.UpdateColorsOnShader();
-            }
-            CalculateRotationIndex(4 - BottleControllerRef.numberOfColorsInBottle);
-            StartCoroutine(RotateBottle());
-        }
     }
 
     public void StartColorTransfer()
