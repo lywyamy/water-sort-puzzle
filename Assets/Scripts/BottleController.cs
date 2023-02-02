@@ -15,7 +15,8 @@ public class BottleController : MonoBehaviour
     public float[] fillRates;
     public float[] ScaleAndRotationRates;
 
-    public float timeToRotate = 1.0f;
+    public float timeToRotate = 0.6f;
+    public float timeToMove = 1.0f;
 
     private int rotationIndex = 0;
 
@@ -85,7 +86,7 @@ public class BottleController : MonoBehaviour
         }
 
         float t = 0.0f;
-        while (t <= 1)
+        while (t <= timeToMove)
         {
             transform.position = Vector3.Lerp(startPosition, endPosition, t);
             t += Time.deltaTime * 2;
@@ -104,7 +105,7 @@ public class BottleController : MonoBehaviour
         endPosition = originalPosition;
 
         float t = 0.0f;
-        while (t <= 1)
+        while (t <= timeToMove)
         {
             transform.position = Vector3.Lerp(startPosition, endPosition, t);
             t += Time.deltaTime * 2;

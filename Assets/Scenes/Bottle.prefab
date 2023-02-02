@@ -381,7 +381,8 @@ MonoBehaviour:
   - 71
   - 83
   - 90
-  timeToRotate: 1
+  timeToRotate: 0.6
+  timeToMove: 1
   numberOfColorsInBottle: 4
   topColor: {r: 0, g: 0, b: 0, a: 0}
   topColorLayers: 1
