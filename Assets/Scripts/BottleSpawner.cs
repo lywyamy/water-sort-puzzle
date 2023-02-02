@@ -6,15 +6,15 @@ public class BottleSpawner : MonoBehaviour
 
 {
     public GameObject bottlePrefab;
-    // public GameObject[] bottles;
     public BottleController bottleController;
-    public System.Random random = new System.Random(Constants.SEED + 1);
+    public System.Random random = new System.Random(Constants.SEED);
     public Color[] colors;
+    public int numberOfFullBottles = 9;
 
     void Start()
     {
         populateColors();
-        generateBottles(Constants.EASY_NUMBER_OF_BOTTLES);
+        generateBottles(numberOfFullBottles);
     }
 
     void Update()
@@ -27,21 +27,34 @@ public class BottleSpawner : MonoBehaviour
         Color[] colorPool = generateColorPool(colors, numberOfFullBottles);
         int index = 0;
 
+        int numberOfBottlesOnFirstRow = (numberOfFullBottles + Constants.NUMBER_OF_EMPTY_BOTTLES + 1) / 2;
+        int numberOfBottlesOnSecondRow = numberOfFullBottles + Constants.NUMBER_OF_EMPTY_BOTTLES - numberOfBottlesOnFirstRow;
+        float firstInterval = calculateInterval(numberOfBottlesOnFirstRow);
+        float secondInteval = calculateInterval(numberOfBottlesOnSecondRow);
+
         for (int i = 0; i < numberOfFullBottles; i++)
         {
             GameObject bottleObject = Instantiate(bottlePrefab);
-            bottleObject.transform.position = new Vector3(-12 + i * 2, 0, 0);
+
+            if (i < numberOfBottlesOnFirstRow)
+            {
+                bottleObject.transform.position = new Vector3(Constants.LEFT_X + i * firstInterval, Constants.FIRST_ROW_Y, 0);
+            }
+            else
+            {
+                bottleObject.transform.position = new Vector3(Constants.LEFT_X + (i - numberOfBottlesOnFirstRow) * secondInteval, Constants.SECOND_ROW_Y, 0);
+            }
+
 
             BottleController bottle = bottleObject.GetComponent<BottleController>();
             bottle.numberOfColorsInBottle = 4;
-
             bottle.bottleColors = new Color[] { colorPool[index++], colorPool[index++], colorPool[index++], colorPool[index++] };
         }
 
         for (int i = 0; i < Constants.NUMBER_OF_EMPTY_BOTTLES; i++)
         {
             GameObject bottle = Instantiate(bottlePrefab);
-            bottle.transform.position = new Vector3(-12 + i * 2, -5, 0);
+            bottle.transform.position = new Vector3(Constants.LEFT_X + (i + numberOfBottlesOnSecondRow - Constants.NUMBER_OF_EMPTY_BOTTLES) * secondInteval, Constants.SECOND_ROW_Y, 0);
             BottleController bottleController = bottle.GetComponent<BottleController>();
             bottleController.numberOfColorsInBottle = 0;
         }
@@ -73,5 +86,14 @@ public class BottleSpawner : MonoBehaviour
     private void populateColors()
     {
         colors = new Color[] { Constants.RED, Constants.ORANGE, Constants.PINK, Constants.TEAL, Constants.SKYBLUE, Constants.PURPLE, Constants.NAVYBLUE, Constants.GRAY, Constants.GREEN, Constants.YELLOW, Constants.DARKGREEN, Constants.BROWN };
+    }
+
+    private float calculateInterval(int numberOfBottlesOnThisRow)
+    {
+        int range = Constants.RIGHT_X - Constants.LEFT_X;
+        int numberOfInterval = numberOfBottlesOnThisRow - 1;
+        float interval = (float)range / numberOfInterval;
+
+        return interval;
     }
 }

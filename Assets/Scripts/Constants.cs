@@ -11,6 +11,10 @@ public class Constants : MonoBehaviour
     public const int NUMBER_OF_EMPTY_BOTTLES = 2;
     public const int MAX_NUMBER_OF_COLORS_IN_BOTTLE = 4;
     public const int SEED = 3722;
+    public const int LEFT_X = -10;
+    public const int RIGHT_X = 10;
+    public const int FIRST_ROW_Y = 1;
+    public const int SECOND_ROW_Y = -5;
 
     // Basic colors for easy level
     public static Color RED = new Color(0.796f, 0.192f, 0.165f); // CB312A
