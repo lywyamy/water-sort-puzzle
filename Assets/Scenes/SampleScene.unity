@@ -152,18 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9026f1ae83bbc42c4893da6a3defc63b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  red: {r: 0.7960785, g: 0.19215688, b: 0.16470589, a: 0}
-  orange: {r: 0.9176471, g: 0.5803922, b: 0.29411766, a: 0}
-  pink: {r: 0.9215687, g: 0.39607847, b: 0.5019608, a: 0}
-  teal: {r: 0.41176474, g: 0.854902, b: 0.5137255, a: 0}
-  skyBlue: {r: 0.34901962, g: 0.65882355, b: 0.90196085, a: 0}
-  purple: {r: 0.48235297, g: 0.18431373, b: 0.60784316, a: 0}
-  navyBlue: {r: 0.26666668, g: 0.20784315, b: 0.79215693, a: 0}
-  gray: {r: 0.4156863, g: 0.43137258, b: 0.4431373, a: 0}
-  green: {r: 0.49803925, g: 0.6117647, b: 0.07058824, a: 0}
-  yellow: {r: 0.9490197, g: 0.86666673, b: 0.37647063, a: 0}
-  darkGreen: {r: 0.09019608, g: 0.43137258, b: 0.2392157, a: 0}
-  brown: {r: 0.5254902, g: 0.3254902, b: 0.03529412, a: 0}
 --- !u!4 &29622874
 Transform:
   m_ObjectHideFlags: 0
@@ -172,7 +160,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 29622872}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20, y: -3.5186708, z: -0.14812356}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -233,7 +221,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -257,7 +245,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.16, y: -2.58, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -328,6 +316,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bottlePrefab: {fileID: 2032201605616834305, guid: 6bf9d55175f334982829359967c1bfb8, type: 3}
   bottleController: {fileID: 0}
+  colors: []
+  numberOfFullBottles: 12
 --- !u!4 &1567324001
 Transform:
   m_ObjectHideFlags: 0
