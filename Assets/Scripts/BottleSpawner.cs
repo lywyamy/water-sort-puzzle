@@ -10,10 +10,11 @@ public class BottleSpawner : MonoBehaviour
     public System.Random random = new System.Random(seed);
     public Color[] colors;
     public int numberOfFullBottles = 9;
-    public static BottleController[] currentState;
+    public List<BottleController> currentState;
 
     void Start()
     {
+        currentState = new List<BottleController>();
         populateColors();
         generateBottles(numberOfFullBottles);
     }
@@ -33,8 +34,6 @@ public class BottleSpawner : MonoBehaviour
         float firstInterval = calculateInterval(numberOfBottlesOnFirstRow);
         float secondInteval = calculateInterval(numberOfBottlesOnSecondRow);
 
-        currentState = new BottleController[numberOfFullBottles + Constants.NUMBER_OF_EMPTY_BOTTLES];
-
         for (int i = 0; i < numberOfFullBottles; i++)
         {
             GameObject bottleObject = Instantiate(bottlePrefab);
@@ -53,7 +52,7 @@ public class BottleSpawner : MonoBehaviour
             bottle.numberOfColorsInBottle = 4;
             bottle.bottleColors = new Color[] { colorPool[index++], colorPool[index++], colorPool[index++], colorPool[index++] };
 
-            currentState[i] = bottle;
+            currentState.Add(bottle);
         }
 
         for (int i = 0; i < Constants.NUMBER_OF_EMPTY_BOTTLES; i++)
@@ -66,7 +65,7 @@ public class BottleSpawner : MonoBehaviour
 
             bottle.numberOfColorsInBottle = 0;
 
-            currentState[numberOfFullBottles + i] = bottle;
+            currentState.Add(bottle);
         }
     }
 
