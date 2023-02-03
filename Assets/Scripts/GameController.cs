@@ -28,11 +28,14 @@ public class GameController : MonoBehaviour
                     if (FirstBottle == null)
                     {
                         FirstBottle = hit.collider.GetComponent<BottleController>();
+                        GameObject bottleObject = hit.collider.gameObject;
+                        FirstBottle.transform.position += new Vector3(0.0f, 0.5f, 0.0f);
                     }
                     else
                     {
                         if (FirstBottle == hit.collider.GetComponent<BottleController>())
                         {
+                            FirstBottle.transform.position -= new Vector3(0.0f, 0.5f, 0.0f);
                             FirstBottle = null;
                         }
                         else
@@ -46,6 +49,10 @@ public class GameController : MonoBehaviour
                             if (SecondBottle.FillBottleCheck(FirstBottle.topColor))
                             {
                                 FirstBottle.StartColorTransfer();
+                            }
+                            else
+                            {
+                                FirstBottle.transform.position -= new Vector3(0.0f, 0.5f, 0.0f);
                             }
 
                             FirstBottle = null;
