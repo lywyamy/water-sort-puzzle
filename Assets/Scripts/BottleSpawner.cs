@@ -10,7 +10,7 @@ public class BottleSpawner : MonoBehaviour
     public System.Random random = new System.Random(seed);
     public Color[] colors;
     public int numberOfFullBottles = 9;
-    public BottleController[] initialState;
+    public static BottleController[] currentState;
 
     void Start()
     {
@@ -33,7 +33,7 @@ public class BottleSpawner : MonoBehaviour
         float firstInterval = calculateInterval(numberOfBottlesOnFirstRow);
         float secondInteval = calculateInterval(numberOfBottlesOnSecondRow);
 
-        initialState = new BottleController[numberOfFullBottles + Constants.NUMBER_OF_EMPTY_BOTTLES];
+        currentState = new BottleController[numberOfFullBottles + Constants.NUMBER_OF_EMPTY_BOTTLES];
 
         for (int i = 0; i < numberOfFullBottles; i++)
         {
@@ -49,10 +49,11 @@ public class BottleSpawner : MonoBehaviour
             }
 
             BottleController bottle = bottleObject.GetComponent<BottleController>();
+            bottle.bottleIndex = i;
             bottle.numberOfColorsInBottle = 4;
             bottle.bottleColors = new Color[] { colorPool[index++], colorPool[index++], colorPool[index++], colorPool[index++] };
 
-            initialState[i] = bottle;
+            currentState[i] = bottle;
         }
 
         for (int i = 0; i < Constants.NUMBER_OF_EMPTY_BOTTLES; i++)
@@ -61,9 +62,11 @@ public class BottleSpawner : MonoBehaviour
             bottleObject.transform.position = new Vector3(Constants.LEFT_X + (i + numberOfBottlesOnSecondRow - Constants.NUMBER_OF_EMPTY_BOTTLES) * secondInteval, Constants.SECOND_ROW_Y, 0);
 
             BottleController bottle = bottleObject.GetComponent<BottleController>();
+            bottle.bottleIndex = numberOfFullBottles + i;
+
             bottle.numberOfColorsInBottle = 0;
 
-            initialState[numberOfFullBottles + i] = bottle;
+            currentState[numberOfFullBottles + i] = bottle;
         }
     }
 
