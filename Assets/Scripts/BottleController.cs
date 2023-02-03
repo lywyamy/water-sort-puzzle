@@ -12,8 +12,8 @@ public class BottleController : MonoBehaviour
     public AnimationCurve FillRateCurve;
     public AnimationCurve RotationSpeedRateCurve;
 
-    public float[] fillRates;
-    public float[] ScaleAndRotationRates;
+    public float[] fillRates = new float[5] { -2.05f, -1.15f, -0.25f, 0.65f, 1.55f };
+    public float[] ScaleAndRotationRates = new float[4] { 54.0f, 71.0f, 83.0f, 90.0f };
 
     public float timeToRotate = 0.6f;
     public float timeToMove = 1.0f;
