@@ -11,10 +11,12 @@ public class BottleSpawner : MonoBehaviour
     public Color[] colors;
     public int numberOfFullBottles = 9;
     public List<BottleController> currentState;
+    public List<Color[]> initialCorlorState;
 
     void Start()
     {
         currentState = new List<BottleController>();
+        initialCorlorState = new List<Color[]>();
         populateColors();
         generateBottles(numberOfFullBottles);
     }
@@ -49,10 +51,22 @@ public class BottleSpawner : MonoBehaviour
 
             BottleController bottle = bottleObject.GetComponent<BottleController>();
             bottle.bottleIndex = i;
-            bottle.numberOfColorsInBottle = 4;
-            bottle.bottleColors = new Color[] { colorPool[index++], colorPool[index++], colorPool[index++], colorPool[index++] };
+            bottle.numberOfColorsInBottle = Constants.MAX_NUMBER_OF_COLORS_IN_BOTTLE;
 
+            Color[] bottleColors = new Color[Constants.MAX_NUMBER_OF_COLORS_IN_BOTTLE];
+            Color[] copyOfBottleColors = new Color[Constants.MAX_NUMBER_OF_COLORS_IN_BOTTLE];
+
+            for (int j = 0; j < Constants.MAX_NUMBER_OF_COLORS_IN_BOTTLE; j++, index++)
+            {
+                bottleColors[j] = colorPool[index];
+                copyOfBottleColors[j] = colorPool[index];
+
+            }
+
+            bottle.bottleColors = bottleColors;
             currentState.Add(bottle);
+
+            initialCorlorState.Add(copyOfBottleColors);
         }
 
         for (int i = 0; i < Constants.NUMBER_OF_EMPTY_BOTTLES; i++)
@@ -105,5 +119,29 @@ public class BottleSpawner : MonoBehaviour
         float interval = (float)range / numberOfInterval;
 
         return interval;
+    }
+
+    public void resetGame()
+    {
+        for (int i = 0; i < initialCorlorState.Count; i++)
+        {
+            Color[] originalColors = initialCorlorState[i];
+            Color[] copyOfOriginalColors = new Color[Constants.MAX_NUMBER_OF_COLORS_IN_BOTTLE];
+
+            for (int j = 0; j < Constants.MAX_NUMBER_OF_COLORS_IN_BOTTLE; j++)
+            {
+                copyOfOriginalColors[j] = originalColors[j];
+            }
+
+            currentState[i].bottleColors = copyOfOriginalColors;
+            currentState[i].numberOfColorsInBottle = Constants.MAX_NUMBER_OF_COLORS_IN_BOTTLE;
+            currentState[i].updateBottle();
+        }
+
+        for (int i = 0; i < Constants.NUMBER_OF_EMPTY_BOTTLES; i++)
+        {
+            currentState[numberOfFullBottles + i].numberOfColorsInBottle = 0;
+            currentState[numberOfFullBottles + i].updateBottle();
+        }
     }
 }

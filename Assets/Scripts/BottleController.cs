@@ -55,6 +55,15 @@ public class BottleController : MonoBehaviour
 
     }
 
+    public void updateBottle()
+    {
+        lineRenderer = FindObjectOfType<LineRenderer>();
+        bottleMaskSR.material.SetFloat("_FillRate", fillRates[numberOfColorsInBottle]);
+        originalPosition = transform.position;
+        UpdateColorsOnShader();
+        UpdateTopColorValues();
+    }
+
     public void StartColorTransfer()
     {
         ChooseRotationPointAndDirection();
@@ -120,7 +129,7 @@ public class BottleController : MonoBehaviour
         bottleMaskSR.sortingOrder -= 2;
     }
 
-    void UpdateColorsOnShader()
+    public void UpdateColorsOnShader()
     {
         bottleMaskSR.material.SetColor("_Color1", bottleColors[0]); // bottome color
         bottleMaskSR.material.SetColor("_Color2", bottleColors[1]);
