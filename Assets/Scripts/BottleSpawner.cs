@@ -6,8 +6,8 @@ public class BottleSpawner : MonoBehaviour
 
 {
     public GameObject bottlePrefab;
-    public BottleController bottleController;
-    public System.Random random = new System.Random(Constants.SEED);
+    private static int seed = 0;
+    public System.Random random = new System.Random(seed);
     public Color[] colors;
     public int numberOfFullBottles = 9;
 
@@ -53,10 +53,10 @@ public class BottleSpawner : MonoBehaviour
 
         for (int i = 0; i < Constants.NUMBER_OF_EMPTY_BOTTLES; i++)
         {
-            GameObject bottle = Instantiate(bottlePrefab);
-            bottle.transform.position = new Vector3(Constants.LEFT_X + (i + numberOfBottlesOnSecondRow - Constants.NUMBER_OF_EMPTY_BOTTLES) * secondInteval, Constants.SECOND_ROW_Y, 0);
-            BottleController bottleController = bottle.GetComponent<BottleController>();
-            bottleController.numberOfColorsInBottle = 0;
+            GameObject bottleObject = Instantiate(bottlePrefab);
+            bottleObject.transform.position = new Vector3(Constants.LEFT_X + (i + numberOfBottlesOnSecondRow - Constants.NUMBER_OF_EMPTY_BOTTLES) * secondInteval, Constants.SECOND_ROW_Y, 0);
+            BottleController bottle = bottleObject.GetComponent<BottleController>();
+            bottle.numberOfColorsInBottle = 0;
         }
     }
 
@@ -73,12 +73,13 @@ public class BottleSpawner : MonoBehaviour
             }
         }
 
-        //Shuffle the colors
+        //Shuffle the colors and increment the random seed
         for (int i = 0; i < colorPool.Length - 1; i++)
         {
             int r = random.Next(i, colorPool.Length);
             (colorPool[r], colorPool[i]) = (colorPool[i], colorPool[r]);
         }
+        seed += 1;
 
         return colorPool;
     }

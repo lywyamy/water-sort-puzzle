@@ -389,6 +389,7 @@ MonoBehaviour:
   BottleControllerRef: {fileID: 0}
   leftRotationPoint: {fileID: 2032201604786013739}
   rightRotationPoint: {fileID: 2032201604768203562}
+  lineRenderer: {fileID: 0}
 --- !u!61 &2032201605616834333
 BoxCollider2D:
   m_ObjectHideFlags: 0
