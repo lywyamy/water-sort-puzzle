@@ -38,10 +38,11 @@ public class BottleController : MonoBehaviour
     Vector3 startPosition;
     Vector3 endPosition;
 
-    // public LineRenderer lineRenderer;
+    public LineRenderer lineRenderer;
 
     void Start()
     {
+        lineRenderer = FindObjectOfType<LineRenderer>();
         bottleMaskSR.material.SetFloat("_FillRate", fillRates[numberOfColorsInBottle]);
         originalPosition = transform.position;
         UpdateColorsOnShader();
@@ -144,16 +145,16 @@ public class BottleController : MonoBehaviour
 
             if (fillRates[numberOfColorsInBottle] > FillRateCurve.Evaluate(angleValue) + 0.005f)
             {
-                // if (!lineRenderer.enabled)
-                // {
-                //     lineRenderer.startColor = topColor;
-                //     lineRenderer.endColor = topColor;
+                if (!lineRenderer.enabled)
+                {
+                    lineRenderer.startColor = topColor;
+                    lineRenderer.endColor = topColor;
 
-                //     lineRenderer.SetPosition(0, chosenRotationPoint.position);
-                //     lineRenderer.SetPosition(1, chosenRotationPoint.position - Vector3.up * 1.45f);
+                    lineRenderer.SetPosition(0, chosenRotationPoint.position);
+                    lineRenderer.SetPosition(1, chosenRotationPoint.position - Vector3.up * 6.0f);
 
-                //     lineRenderer.enabled = true;
-                // }
+                    lineRenderer.enabled = true;
+                }
                 bottleMaskSR.material.SetFloat("_FillRate", FillRateCurve.Evaluate(angleValue));
                 BottleControllerRef.FillUp(FillRateCurve.Evaluate(lastAngleValue) - FillRateCurve.Evaluate(angleValue));
             }
@@ -171,7 +172,7 @@ public class BottleController : MonoBehaviour
         numberOfColorsInBottle -= numerberOfColorsToTransfer;
         BottleControllerRef.numberOfColorsInBottle += numerberOfColorsToTransfer;
 
-        // lineRenderer.enabled = false;
+        lineRenderer.enabled = false;
 
         StartCoroutine(RotateBottleBack());
     }
