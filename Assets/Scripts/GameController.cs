@@ -6,10 +6,11 @@ public class GameController : MonoBehaviour
 {
     public BottleController FirstBottle;
     public BottleController SecondBottle;
+    public List<UserAction> userActionTracker;
 
     void Start()
     {
-
+        userActionTracker = new List<UserAction>();
     }
 
     void Update()
@@ -49,6 +50,9 @@ public class GameController : MonoBehaviour
                             if (SecondBottle.FillBottleCheck(FirstBottle.topColor))
                             {
                                 FirstBottle.StartColorTransfer();
+                                
+                                UserAction userAction = new UserAction(FirstBottle.bottleIndex, SecondBottle.bottleIndex, FirstBottle.numerberOfColorsToTransfer);
+                                userActionTracker.Add(userAction);
                             }
                             else
                             {
