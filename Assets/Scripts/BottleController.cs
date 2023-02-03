@@ -28,7 +28,7 @@ public class BottleController : MonoBehaviour
     public int topColorLayers = 1;
 
     public BottleController BottleControllerRef;
-    private int numerberOfColorsToTransfer = 0;
+    public int numerberOfColorsToTransfer = 0;
 
     public Transform leftRotationPoint;
     public Transform rightRotationPoint;
