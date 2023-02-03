@@ -7,6 +7,7 @@ public class BottleController : MonoBehaviour
 {
     public Color[] bottleColors;
     public SpriteRenderer bottleMaskSR;
+    public int bottleIndex;
 
     public AnimationCurve ScaleAndRotationRateCurve;
     public AnimationCurve FillRateCurve;
