@@ -10,8 +10,10 @@ public class BottleSpawner : MonoBehaviour
     public System.Random random = new System.Random(seed);
     public Color[] colors;
     public int numberOfFullBottles = 9;
+    public int numberOfEmptyBottles = 2;
     public List<BottleController> currentState;
     public List<Color[]> initialCorlorState;
+    public GameController gameController;
 
     void Start()
     {
@@ -31,8 +33,8 @@ public class BottleSpawner : MonoBehaviour
         Color[] colorPool = generateColorPool(colors, numberOfFullBottles);
         int index = 0;
 
-        int numberOfBottlesOnFirstRow = (numberOfFullBottles + Constants.NUMBER_OF_EMPTY_BOTTLES + 1) / 2;
-        int numberOfBottlesOnSecondRow = numberOfFullBottles + Constants.NUMBER_OF_EMPTY_BOTTLES - numberOfBottlesOnFirstRow;
+        int numberOfBottlesOnFirstRow = (numberOfFullBottles + numberOfEmptyBottles + 1) / 2;
+        int numberOfBottlesOnSecondRow = numberOfFullBottles + numberOfEmptyBottles - numberOfBottlesOnFirstRow;
         float firstInterval = calculateInterval(numberOfBottlesOnFirstRow);
         float secondInteval = calculateInterval(numberOfBottlesOnSecondRow);
 
@@ -69,10 +71,10 @@ public class BottleSpawner : MonoBehaviour
             initialCorlorState.Add(copyOfBottleColors);
         }
 
-        for (int i = 0; i < Constants.NUMBER_OF_EMPTY_BOTTLES; i++)
+        for (int i = 0; i < numberOfEmptyBottles; i++)
         {
             GameObject bottleObject = Instantiate(bottlePrefab);
-            bottleObject.transform.position = new Vector3(Constants.LEFT_X + (i + numberOfBottlesOnSecondRow - Constants.NUMBER_OF_EMPTY_BOTTLES) * secondInteval, Constants.SECOND_ROW_Y, 0);
+            bottleObject.transform.position = new Vector3(Constants.LEFT_X + (i + numberOfBottlesOnSecondRow - numberOfEmptyBottles) * secondInteval, Constants.SECOND_ROW_Y, 0);
 
             BottleController bottle = bottleObject.GetComponent<BottleController>();
             bottle.bottleIndex = numberOfFullBottles + i;
@@ -138,10 +140,31 @@ public class BottleSpawner : MonoBehaviour
             currentState[i].updateBottle();
         }
 
-        for (int i = 0; i < Constants.NUMBER_OF_EMPTY_BOTTLES; i++)
+        for (int i = 0; i < numberOfEmptyBottles; i++)
         {
             currentState[numberOfFullBottles + i].numberOfColorsInBottle = 0;
             currentState[numberOfFullBottles + i].updateBottle();
+        }
+    }
+
+    public void undoGame()
+    {
+        List<UserAction> userActions = gameController.userActionTracker;
+
+        if (userActions.Count > 0)
+        {
+            int lastMoveSourceBottleIndex = userActions[userActions.Count - 1].sourceIndex;
+            int lastMoveDestinationBottleIndex = userActions[userActions.Count - 1].destinationIndex;
+            int numberOfWaterMoved = userActions[userActions.Count - 1].numberOfWaterMoved;
+            // Color color = currentState[lastMoveDestinationBottleIndex].topColor;
+
+            currentState[lastMoveSourceBottleIndex].numberOfColorsInBottle += numberOfWaterMoved;
+            currentState[lastMoveDestinationBottleIndex].numberOfColorsInBottle -= numberOfWaterMoved;
+
+            currentState[lastMoveSourceBottleIndex].updateBottle();
+            currentState[lastMoveDestinationBottleIndex].updateBottle();
+
+            userActions.RemoveAt(userActions.Count - 1);
         }
     }
 }

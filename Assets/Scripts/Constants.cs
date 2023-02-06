@@ -7,7 +7,6 @@ public class Constants : MonoBehaviour
     public const int EASY_NUMBER_OF_BOTTLES = 6;
     public const int MEDIUM_NUMBER_OF_BOTTLES = 9;
     public const int HARD_NUMBER_OF_BOTTLES = 12;
-    public const int NUMBER_OF_EMPTY_BOTTLES = 2;
     public const int MAX_NUMBER_OF_COLORS_IN_BOTTLE = 4;
     public const int LEFT_X = -10;
     public const int RIGHT_X = 10;
