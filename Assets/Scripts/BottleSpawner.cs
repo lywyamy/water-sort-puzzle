@@ -12,7 +12,7 @@ public class BottleSpawner : MonoBehaviour
     public int numberOfFullBottles = 9;
     public int numberOfEmptyBottles = 2;
     public List<BottleController> currentState;
-    public List<Color[]> initialCorlorState;
+    private List<Color[]> initialCorlorState;
     public GameController gameController;
 
     void Start()
@@ -33,7 +33,7 @@ public class BottleSpawner : MonoBehaviour
         Color[] colorPool = generateColorPool(colors, numberOfFullBottles);
         int index = 0;
 
-        int numberOfBottlesOnFirstRow = (numberOfFullBottles + numberOfEmptyBottles + 1) / 2;
+        int numberOfBottlesOnFirstRow = (numberOfFullBottles + 2 + 1) / 2; // initial number of empty bottles is 2, adding 1 for rounding
         int numberOfBottlesOnSecondRow = numberOfFullBottles + numberOfEmptyBottles - numberOfBottlesOnFirstRow;
         float firstInterval = calculateInterval(numberOfBottlesOnFirstRow);
         float secondInteval = calculateInterval(numberOfBottlesOnSecondRow);
@@ -156,7 +156,6 @@ public class BottleSpawner : MonoBehaviour
             int lastMoveSourceBottleIndex = userActions[userActions.Count - 1].sourceIndex;
             int lastMoveDestinationBottleIndex = userActions[userActions.Count - 1].destinationIndex;
             int numberOfWaterMoved = userActions[userActions.Count - 1].numberOfWaterMoved;
-            // Color color = currentState[lastMoveDestinationBottleIndex].topColor;
 
             currentState[lastMoveSourceBottleIndex].numberOfColorsInBottle += numberOfWaterMoved;
             currentState[lastMoveDestinationBottleIndex].numberOfColorsInBottle -= numberOfWaterMoved;
@@ -165,6 +164,33 @@ public class BottleSpawner : MonoBehaviour
             currentState[lastMoveDestinationBottleIndex].updateBottle();
 
             userActions.RemoveAt(userActions.Count - 1);
+        }
+    }
+
+    public void addExtraEmptyBottle()
+    {
+        if (numberOfEmptyBottles == 2)
+        {
+            // Create an empty bottle and append it to the currentState
+            GameObject bottleObject = Instantiate(bottlePrefab);
+
+            BottleController bottle = bottleObject.GetComponent<BottleController>();
+            bottle.numberOfColorsInBottle = 0;
+
+            numberOfEmptyBottles += 1;
+            bottle.bottleIndex = numberOfFullBottles + numberOfEmptyBottles - 1;
+
+            currentState.Add(bottle);
+
+            // Adjust the position of each bottle on the 2nd row
+            int numberOfBottlesOnFirstRow = (numberOfFullBottles + 2 + 1) / 2;
+            int numberOfBottlesOnSecondRow = numberOfFullBottles + numberOfEmptyBottles - numberOfBottlesOnFirstRow;
+            float secondInteval = calculateInterval(numberOfBottlesOnSecondRow);
+
+            for (int i = numberOfBottlesOnFirstRow; i < numberOfFullBottles + numberOfEmptyBottles; i++)
+            {
+                currentState[i].transform.position = new Vector3(Constants.LEFT_X + (i - numberOfBottlesOnFirstRow) * secondInteval, Constants.SECOND_ROW_Y, 0);
+            }
         }
     }
 }
