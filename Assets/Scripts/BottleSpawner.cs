@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System.Threading;
 
 public class BottleSpawner : MonoBehaviour
 
@@ -29,11 +28,6 @@ public class BottleSpawner : MonoBehaviour
         initialCorlorState = new List<Color[]>();
         populateColors();
         generateBottles(numberOfFullBottles);
-    }
-
-    void Update()
-    {
-
     }
 
     void generateBottles(int numberOfFullBottles)

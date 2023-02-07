@@ -68,9 +68,10 @@ public class BottleController : MonoBehaviour
             BottleControllerRef.bottleColors[BottleControllerRef.numberOfColorsInBottle + i] = topColor;
         }
 
-        BottleControllerRef.UpdateColorsOnShader();
-
         CalculateRotationIndex(4 - BottleControllerRef.numberOfColorsInBottle);
+
+        UpdateColorsOnShader();
+        BottleControllerRef.UpdateColorsOnShader();
 
         transform.GetComponent<SpriteRenderer>().sortingOrder += 2;
         bottleMaskSR.sortingOrder += 2;
@@ -175,7 +176,7 @@ public class BottleController : MonoBehaviour
 
             yield return new WaitForEndOfFrame();
         }
-        UpdateTopColorValues();
+
         angleValue = 0.0f;
         transform.eulerAngles = new Vector3(0, 0, angleValue);
         bottleMaskSR.material.SetFloat("_ScaleAndRotationRate", ScaleAndRotationRateCurve.Evaluate(angleValue));
@@ -200,6 +201,9 @@ public class BottleController : MonoBehaviour
 
         transform.GetComponent<SpriteRenderer>().sortingOrder -= 2;
         bottleMaskSR.sortingOrder -= 2;
+
+        UpdateTopColorValues();
+        BottleControllerRef.UpdateTopColorValues();
 
         if (animationForAutoSolution != null)
         {
