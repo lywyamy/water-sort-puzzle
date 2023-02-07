@@ -1264,7 +1264,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bottlePrefab: {fileID: 2032201605616834305, guid: 6bf9d55175f334982829359967c1bfb8, type: 3}
   colors: []
-  numberOfFullBottles: 4
+  numberOfFullBottles: 12
   numberOfEmptyBottles: 2
   currentState: []
   gameController: {fileID: 1579163972}
