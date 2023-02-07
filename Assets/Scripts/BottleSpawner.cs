@@ -18,6 +18,9 @@ public class BottleSpawner : MonoBehaviour
 
     private bool solved;
 
+    public List<UserAction> solutionSteps;
+    public int currentStep;
+
     void Start()
     {
 
@@ -130,6 +133,12 @@ public class BottleSpawner : MonoBehaviour
 
     public void resetGame()
     {
+        resetGameDisplay();
+        gameController.userActionTracker.Clear();
+    }
+
+    private void resetGameDisplay()
+    {
         for (int i = 0; i < initialCorlorState.Count; i++)
         {
             Color[] originalColors = initialCorlorState[i];
@@ -150,8 +159,6 @@ public class BottleSpawner : MonoBehaviour
             currentState[numberOfFullBottles + i].numberOfColorsInBottle = 0;
             currentState[numberOfFullBottles + i].updateBottle();
         }
-
-        gameController.userActionTracker.Clear();
     }
 
     public void undoGame()
@@ -209,21 +216,27 @@ public class BottleSpawner : MonoBehaviour
             adjustSecondRowSpacing();
         }
 
+        solutionSteps = solve();
+        currentStep = 0;
 
-        List<UserAction> solutionSteps = solve();
+        resetGameDisplay();
 
-        // foreach (UserAction userAction in solutionSteps)
-        // {
-        //     // play animation for each step
-        //     BottleController firstBottle = currentState[userAction.sourceIndex].GetComponent<BottleController>();
-        //     BottleController secondBottle = currentState[userAction.destinationIndex].GetComponent<BottleController>();
+        playAnimationForEachStep();
+    }
 
-        //     firstBottle.BottleControllerRef = secondBottle;
-        //     firstBottle.StartColorTransfer();
+    public void playAnimationForEachStep()
+    {
+        if (currentStep < solutionSteps.Count)
+        {
+            BottleController firstBottle = currentState[solutionSteps[currentStep].sourceIndex].GetComponent<BottleController>();
+            BottleController secondBottle = currentState[solutionSteps[currentStep].destinationIndex].GetComponent<BottleController>();
 
-        //     // wait for the current animation to finish
-        //     Thread.Sleep(1100);
-        // }
+            currentStep++;
+
+            firstBottle.BottleControllerRef = secondBottle;
+            firstBottle.StartColorTransfer(playAnimationForEachStep);
+        }
+
     }
 
     private List<UserAction> solve()

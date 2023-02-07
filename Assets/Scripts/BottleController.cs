@@ -40,18 +40,11 @@ public class BottleController : MonoBehaviour
 
     public LineRenderer lineRenderer;
 
+    public Action animationForAutoSolution;
+
     void Start()
     {
-        lineRenderer = FindObjectOfType<LineRenderer>();
-        bottleMaskSR.material.SetFloat("_FillRate", fillRates[numberOfColorsInBottle]);
-        originalPosition = transform.position;
-        UpdateColorsOnShader();
-        UpdateTopColorValues();
-    }
-
-    void Update()
-    {
-
+        updateBottle();
     }
 
     public void updateBottle()
@@ -63,8 +56,10 @@ public class BottleController : MonoBehaviour
         UpdateTopColorValues();
     }
 
-    public void StartColorTransfer()
+    public void StartColorTransfer(Action animationCallBack = null)
     {
+        animationForAutoSolution = animationCallBack;
+
         ChooseRotationPointAndDirection();
         numberOfColorsToTransfer = Mathf.Min(topColorLayers, 4 - BottleControllerRef.numberOfColorsInBottle);
 
@@ -107,33 +102,6 @@ public class BottleController : MonoBehaviour
         transform.position = endPosition;
 
         StartCoroutine(RotateBottle());
-    }
-
-    IEnumerator MoveBottleBack()
-    {
-        startPosition = transform.position;
-        endPosition = originalPosition;
-
-        float t = 0.0f;
-        while (t <= timeToMove)
-        {
-            transform.position = Vector3.Lerp(startPosition, endPosition, t);
-            t += Time.deltaTime * 2;
-
-            yield return new WaitForEndOfFrame();
-        }
-        transform.position = endPosition;
-
-        transform.GetComponent<SpriteRenderer>().sortingOrder -= 2;
-        bottleMaskSR.sortingOrder -= 2;
-    }
-
-    public void UpdateColorsOnShader()
-    {
-        bottleMaskSR.material.SetColor("_Color1", bottleColors[0]); // bottome color
-        bottleMaskSR.material.SetColor("_Color2", bottleColors[1]);
-        bottleMaskSR.material.SetColor("_Color3", bottleColors[2]);
-        bottleMaskSR.material.SetColor("_Color4", bottleColors[3]); // top color
     }
 
     IEnumerator RotateBottle()
@@ -213,6 +181,38 @@ public class BottleController : MonoBehaviour
         bottleMaskSR.material.SetFloat("_ScaleAndRotationRate", ScaleAndRotationRateCurve.Evaluate(angleValue));
 
         StartCoroutine(MoveBottleBack());
+    }
+
+    IEnumerator MoveBottleBack()
+    {
+        startPosition = transform.position;
+        endPosition = originalPosition;
+
+        float t = 0.0f;
+        while (t <= timeToMove)
+        {
+            transform.position = Vector3.Lerp(startPosition, endPosition, t);
+            t += Time.deltaTime * 2;
+
+            yield return new WaitForEndOfFrame();
+        }
+        transform.position = endPosition;
+
+        transform.GetComponent<SpriteRenderer>().sortingOrder -= 2;
+        bottleMaskSR.sortingOrder -= 2;
+
+        if (animationForAutoSolution != null)
+        {
+            animationForAutoSolution();
+        }
+    }
+
+    public void UpdateColorsOnShader()
+    {
+        bottleMaskSR.material.SetColor("_Color1", bottleColors[0]); // bottome color
+        bottleMaskSR.material.SetColor("_Color2", bottleColors[1]);
+        bottleMaskSR.material.SetColor("_Color3", bottleColors[2]);
+        bottleMaskSR.material.SetColor("_Color4", bottleColors[3]); // top color
     }
 
     public void UpdateTopColorValues()
