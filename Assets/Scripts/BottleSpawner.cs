@@ -1,6 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading;
 
 public class BottleSpawner : MonoBehaviour
 
@@ -12,11 +12,16 @@ public class BottleSpawner : MonoBehaviour
     public int numberOfFullBottles = 9;
     public int numberOfEmptyBottles = 2;
     public List<BottleController> currentState;
+
     private List<Color[]> initialCorlorState;
     public GameController gameController;
 
+    private bool solved;
+
     void Start()
     {
+
+        solved = false;
         currentState = new List<BottleController>();
         initialCorlorState = new List<Color[]>();
         populateColors();
@@ -145,6 +150,8 @@ public class BottleSpawner : MonoBehaviour
             currentState[numberOfFullBottles + i].numberOfColorsInBottle = 0;
             currentState[numberOfFullBottles + i].updateBottle();
         }
+
+        gameController.userActionTracker.Clear();
     }
 
     public void undoGame()
@@ -156,6 +163,11 @@ public class BottleSpawner : MonoBehaviour
             int lastMoveSourceBottleIndex = userActions[userActions.Count - 1].sourceIndex;
             int lastMoveDestinationBottleIndex = userActions[userActions.Count - 1].destinationIndex;
             int numberOfWaterMoved = userActions[userActions.Count - 1].numberOfWaterMoved;
+
+            for (int i = 0; i < numberOfWaterMoved; i++)
+            {
+                currentState[lastMoveSourceBottleIndex].bottleColors[currentState[lastMoveSourceBottleIndex].numberOfColorsInBottle + i] = currentState[lastMoveDestinationBottleIndex].topColor;
+            }
 
             currentState[lastMoveSourceBottleIndex].numberOfColorsInBottle += numberOfWaterMoved;
             currentState[lastMoveDestinationBottleIndex].numberOfColorsInBottle -= numberOfWaterMoved;
@@ -177,20 +189,181 @@ public class BottleSpawner : MonoBehaviour
             BottleController bottle = bottleObject.GetComponent<BottleController>();
             bottle.numberOfColorsInBottle = 0;
 
-            numberOfEmptyBottles += 1;
+            numberOfEmptyBottles++;
             bottle.bottleIndex = numberOfFullBottles + numberOfEmptyBottles - 1;
 
             currentState.Add(bottle);
 
             // Adjust the position of each bottle on the 2nd row
-            int numberOfBottlesOnFirstRow = (numberOfFullBottles + 2 + 1) / 2;
-            int numberOfBottlesOnSecondRow = numberOfFullBottles + numberOfEmptyBottles - numberOfBottlesOnFirstRow;
-            float secondInteval = calculateInterval(numberOfBottlesOnSecondRow);
+            adjustSecondRowSpacing();
+        }
+    }
 
-            for (int i = numberOfBottlesOnFirstRow; i < numberOfFullBottles + numberOfEmptyBottles; i++)
+    public void solveGameAndPlayAnimation()
+    {
+        resetGame();
+
+        if (numberOfEmptyBottles == 3)
+        {
+            numberOfEmptyBottles--;
+            adjustSecondRowSpacing();
+        }
+
+
+        List<UserAction> solutionSteps = solve();
+
+        // foreach (UserAction userAction in solutionSteps)
+        // {
+        //     // play animation for each step
+        //     BottleController firstBottle = currentState[userAction.sourceIndex].GetComponent<BottleController>();
+        //     BottleController secondBottle = currentState[userAction.destinationIndex].GetComponent<BottleController>();
+
+        //     firstBottle.BottleControllerRef = secondBottle;
+        //     firstBottle.StartColorTransfer();
+
+        //     // wait for the current animation to finish
+        //     Thread.Sleep(1100);
+        // }
+    }
+
+    private List<UserAction> solve()
+    {
+        List<UserAction> solutionSteps = gameController.userActionTracker;
+        solutionSteps.Clear();
+
+        for (int i = 0; i < numberOfFullBottles + numberOfEmptyBottles; i++)
+        {
+            solveHelper(i, solutionSteps);
+            if (solved)
             {
-                currentState[i].transform.position = new Vector3(Constants.LEFT_X + (i - numberOfBottlesOnFirstRow) * secondInteval, Constants.SECOND_ROW_Y, 0);
+                return solutionSteps;
             }
+        }
+
+        return null;
+    }
+
+    private void solveHelper(int start, List<UserAction> solutionSteps)
+    {
+        if (checkSuccess())
+        {
+            solved = true;
+            return;
+        }
+
+        int[] nextAvailableMove = findNextAvailableMove(start);
+
+        if (nextAvailableMove == null)
+        {
+            return;
+        }
+
+        int destinationIndex = nextAvailableMove[0];
+        int waterSize = nextAvailableMove[1];
+        UserAction newAction = new UserAction(start, destinationIndex, waterSize);
+        solutionSteps.Add(newAction);
+
+        BottleController sourceBottle = currentState[start].GetComponent<BottleController>();
+        BottleController destinationBottle = currentState[destinationIndex].GetComponent<BottleController>();
+
+        for (int i = 0; i < waterSize; i++)
+        {
+            destinationBottle.bottleColors[destinationBottle.numberOfColorsInBottle + i] = sourceBottle.topColor;
+        }
+
+        sourceBottle.numberOfColorsInBottle -= waterSize;
+        destinationBottle.numberOfColorsInBottle += waterSize;
+
+        sourceBottle.updateBottle();
+        destinationBottle.updateBottle();
+
+        for (int j = start; j < numberOfFullBottles + numberOfEmptyBottles + start; j++)
+        {
+            if (j < numberOfFullBottles + numberOfEmptyBottles)
+            {
+                solveHelper(j, solutionSteps);
+            }
+            else
+            {
+                solveHelper(j - numberOfFullBottles - numberOfEmptyBottles, solutionSteps);
+            }
+        }
+
+        if (!solved)
+        {
+            undoGame();
+        }
+
+        return;
+    }
+
+    private int[] findNextAvailableMove(int sourceIndex)
+    {
+        for (int destinationIndex = 0; destinationIndex < numberOfFullBottles + numberOfEmptyBottles; destinationIndex++)
+        {
+            if (destinationIndex == sourceIndex) // can't pour water from the source bottle to itself
+            {
+                continue;
+            }
+            else if (currentState[sourceIndex].numberOfColorsInBottle == 0) // can't pour water out of an empty bottle
+            {
+                continue;
+            }
+            else if (currentState[sourceIndex].topColorLayers == currentState[sourceIndex].numberOfColorsInBottle && currentState[destinationIndex].numberOfColorsInBottle == 0) // if a bottle has one single color (not necessarily full), no need to pour into an empty bottle
+            {
+                continue;
+            }
+            else if (currentState[sourceIndex].numberOfColorsInBottle > 0 && currentState[destinationIndex].numberOfColorsInBottle > 0 && !currentState[sourceIndex].topColor.Equals(currentState[destinationIndex].topColor)) // the top colors are not the same
+            {
+                continue;
+            }
+            else if (currentState[sourceIndex].topColorLayers > 4 - currentState[destinationIndex].numberOfColorsInBottle) // can't empty the top colors
+            {
+                continue;
+            }
+            else
+            {
+                return new int[] { destinationIndex, currentState[sourceIndex].topColorLayers };
+            }
+        }
+
+        return null;
+    }
+
+    private bool checkSuccess()
+    {
+        for (int i = 0; i < numberOfFullBottles + numberOfEmptyBottles; i++)
+        {
+            BottleController bottle = currentState[i].GetComponent<BottleController>();
+
+            // each bottle must be either empty or filled with one single color
+            if (bottle.numberOfColorsInBottle == 0)
+            {
+                continue;
+            }
+            else if (bottle.numberOfColorsInBottle == Constants.MAX_NUMBER_OF_COLORS_IN_BOTTLE && bottle.topColorLayers == Constants.MAX_NUMBER_OF_COLORS_IN_BOTTLE)
+            {
+                continue;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        return true;
+    }
+
+    private void adjustSecondRowSpacing()
+    {
+        int numberOfBottlesOnFirstRow = (numberOfFullBottles + 2 + 1) / 2;
+        int numberOfBottlesOnSecondRow = numberOfFullBottles + numberOfEmptyBottles - numberOfBottlesOnFirstRow;
+        float secondInteval = calculateInterval(numberOfBottlesOnSecondRow);
+
+        for (int i = numberOfBottlesOnFirstRow; i < numberOfFullBottles + numberOfEmptyBottles; i++)
+        {
+            currentState[i].transform.position = new Vector3(Constants.LEFT_X + (i - numberOfBottlesOnFirstRow) * secondInteval, Constants.SECOND_ROW_Y, 0);
         }
     }
 }

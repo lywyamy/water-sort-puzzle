@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 
@@ -28,7 +27,7 @@ public class BottleController : MonoBehaviour
     public int topColorLayers = 1;
 
     public BottleController BottleControllerRef;
-    public int numerberOfColorsToTransfer = 0;
+    public int numberOfColorsToTransfer = 0;
 
     public Transform leftRotationPoint;
     public Transform rightRotationPoint;
@@ -67,9 +66,9 @@ public class BottleController : MonoBehaviour
     public void StartColorTransfer()
     {
         ChooseRotationPointAndDirection();
-        numerberOfColorsToTransfer = Mathf.Min(topColorLayers, 4 - BottleControllerRef.numberOfColorsInBottle);
+        numberOfColorsToTransfer = Mathf.Min(topColorLayers, 4 - BottleControllerRef.numberOfColorsInBottle);
 
-        for (int i = 0; i < numerberOfColorsToTransfer; i++)
+        for (int i = 0; i < numberOfColorsToTransfer; i++)
         {
             BottleControllerRef.bottleColors[BottleControllerRef.numberOfColorsInBottle + i] = topColor;
         }
@@ -179,8 +178,8 @@ public class BottleController : MonoBehaviour
         bottleMaskSR.material.SetFloat("_ScaleAndRotationRate", ScaleAndRotationRateCurve.Evaluate(angleValue));
         bottleMaskSR.material.SetFloat("_FillRate", FillRateCurve.Evaluate(angleValue));
 
-        numberOfColorsInBottle -= numerberOfColorsToTransfer;
-        BottleControllerRef.numberOfColorsInBottle += numerberOfColorsToTransfer;
+        numberOfColorsInBottle -= numberOfColorsToTransfer;
+        BottleControllerRef.numberOfColorsInBottle += numberOfColorsToTransfer;
 
         lineRenderer.enabled = false;
 

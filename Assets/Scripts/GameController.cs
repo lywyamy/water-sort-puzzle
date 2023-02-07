@@ -50,8 +50,8 @@ public class GameController : MonoBehaviour
                             if (SecondBottle.FillBottleCheck(FirstBottle.topColor))
                             {
                                 FirstBottle.StartColorTransfer();
-                                
-                                UserAction userAction = new UserAction(FirstBottle.bottleIndex, SecondBottle.bottleIndex, FirstBottle.numerberOfColorsToTransfer);
+
+                                UserAction userAction = new UserAction(FirstBottle.bottleIndex, SecondBottle.bottleIndex, FirstBottle.numberOfColorsToTransfer);
                                 userActionTracker.Add(userAction);
                             }
                             else
