@@ -748,7 +748,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 675, y: 469}
   m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &950094420
@@ -1431,6 +1431,7 @@ MonoBehaviour:
   currentState: []
   gameController: {fileID: 1579163972}
   currentStep: 0
+  levelNumber: {fileID: 950094420}
 --- !u!4 &1567324001
 Transform:
   m_ObjectHideFlags: 0
