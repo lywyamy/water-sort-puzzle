@@ -234,7 +234,10 @@ public class BottleSpawner : MonoBehaviour
             firstBottle.BottleControllerRef = secondBottle;
             firstBottle.StartColorTransfer(playAnimationForEachStep);
         }
-
+        else
+        {
+            OpenGameOverScene();
+        }
     }
 
     private List<UserAction> solve()
