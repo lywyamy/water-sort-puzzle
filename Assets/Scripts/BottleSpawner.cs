@@ -11,7 +11,7 @@ public class BottleSpawner : MonoBehaviour
     private static int seed = 0;
     public System.Random random = new System.Random(seed);
     public Color[] colors;
-    public static int numberOfFullBottles = 4;
+    public static int numberOfFullBottles = 6;
     public int numberOfEmptyBottles = 2;
     public List<BottleController> currentState;
 
