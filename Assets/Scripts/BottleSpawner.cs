@@ -6,19 +6,19 @@ using UnityEngine.UI;
 public class BottleSpawner : MonoBehaviour
 
 {
-    public GameObject bottlePrefab;
+    public static int numberOfFullBottles = 2;
+    public static int numberOfEmptyBottles = 2;
     private static int seed = 1;
+
+    public List<BottleController> currentState;
+    public GameObject bottlePrefab;
+
     public System.Random random = new System.Random(seed);
     public Color[] colors;
-    public static int numberOfFullBottles = 2;
-    public int numberOfEmptyBottles = 2;
-    public List<BottleController> currentState;
-
     private List<Color[]> initialCorlorState;
     public GameController gameController;
 
-    public bool solved;
-
+    private bool solved;
     public List<UserAction> solutionSteps;
     public int currentStep;
 
@@ -40,7 +40,7 @@ public class BottleSpawner : MonoBehaviour
         int index = 0;
 
         int numberOfBottlesOnFirstRow = (numberOfFullBottles + 2 + 1) / 2; // initial number of empty bottles is 2, adding 1 for rounding
-        int numberOfBottlesOnSecondRow = numberOfFullBottles + numberOfEmptyBottles - numberOfBottlesOnFirstRow;
+        int numberOfBottlesOnSecondRow = numberOfFullBottles + 2 - numberOfBottlesOnFirstRow;
         float firstInterval = calculateInterval(numberOfBottlesOnFirstRow);
         float secondInteval = calculateInterval(numberOfBottlesOnSecondRow);
 
@@ -84,9 +84,7 @@ public class BottleSpawner : MonoBehaviour
 
             BottleController bottle = bottleObject.GetComponent<BottleController>();
             bottle.bottleIndex = numberOfFullBottles + i;
-
             bottle.numberOfColorsInBottle = 0;
-
             currentState.Add(bottle);
         }
     }
@@ -165,20 +163,20 @@ public class BottleSpawner : MonoBehaviour
 
         if (userActions.Count > 0)
         {
-            int lastMoveSourceBottleIndex = userActions[userActions.Count - 1].sourceIndex;
-            int lastMoveDestinationBottleIndex = userActions[userActions.Count - 1].destinationIndex;
+            int sourceBottleIndex = userActions[userActions.Count - 1].sourceIndex;
+            int destinationBottleIndex = userActions[userActions.Count - 1].destinationIndex;
             int numberOfWaterMoved = userActions[userActions.Count - 1].numberOfWaterMoved;
 
             for (int i = 0; i < numberOfWaterMoved; i++)
             {
-                currentState[lastMoveSourceBottleIndex].bottleColors[currentState[lastMoveSourceBottleIndex].numberOfColorsInBottle + i] = currentState[lastMoveDestinationBottleIndex].topColor;
+                currentState[sourceBottleIndex].bottleColors[currentState[sourceBottleIndex].numberOfColorsInBottle + i] = currentState[destinationBottleIndex].topColor;
             }
 
-            currentState[lastMoveSourceBottleIndex].numberOfColorsInBottle += numberOfWaterMoved;
-            currentState[lastMoveDestinationBottleIndex].numberOfColorsInBottle -= numberOfWaterMoved;
+            currentState[sourceBottleIndex].numberOfColorsInBottle += numberOfWaterMoved;
+            currentState[destinationBottleIndex].numberOfColorsInBottle -= numberOfWaterMoved;
 
-            currentState[lastMoveSourceBottleIndex].updateBottle();
-            currentState[lastMoveDestinationBottleIndex].updateBottle();
+            currentState[sourceBottleIndex].updateBottle();
+            currentState[destinationBottleIndex].updateBottle();
 
             userActions.RemoveAt(userActions.Count - 1);
         }
@@ -229,13 +227,13 @@ public class BottleSpawner : MonoBehaviour
     {
         if (currentStep < solutionSteps.Count)
         {
-            BottleController firstBottle = currentState[solutionSteps[currentStep].sourceIndex].GetComponent<BottleController>();
-            BottleController secondBottle = currentState[solutionSteps[currentStep].destinationIndex].GetComponent<BottleController>();
+            BottleController sourceBottle = currentState[solutionSteps[currentStep].sourceIndex].GetComponent<BottleController>();
+            BottleController destinationBottle = currentState[solutionSteps[currentStep].destinationIndex].GetComponent<BottleController>();
 
             currentStep++;
 
-            firstBottle.BottleControllerRef = secondBottle;
-            firstBottle.StartColorTransfer(playAnimationForEachStep);
+            sourceBottle.BottleControllerRef = destinationBottle;
+            sourceBottle.StartColorTransfer(playAnimationForEachStep);
         }
         else
         {
