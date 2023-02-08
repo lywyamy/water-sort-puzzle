@@ -10,14 +10,14 @@ public class BottleSpawner : MonoBehaviour
     private static int seed = 1;
     public System.Random random = new System.Random(seed);
     public Color[] colors;
-    public static int numberOfFullBottles = 6;
+    public static int numberOfFullBottles = 2;
     public int numberOfEmptyBottles = 2;
     public List<BottleController> currentState;
 
     private List<Color[]> initialCorlorState;
     public GameController gameController;
 
-    private bool solved;
+    public bool solved;
 
     public List<UserAction> solutionSteps;
     public int currentStep;
@@ -190,6 +190,7 @@ public class BottleSpawner : MonoBehaviour
         {
             // Create an empty bottle and append it to the currentState
             GameObject bottleObject = Instantiate(bottlePrefab);
+            bottleObject.tag = "extraEmptyBottle";
 
             BottleController bottle = bottleObject.GetComponent<BottleController>();
             bottle.numberOfColorsInBottle = 0;
@@ -210,7 +211,9 @@ public class BottleSpawner : MonoBehaviour
 
         if (numberOfEmptyBottles == 3)
         {
+            Destroy(GameObject.FindGameObjectWithTag("extraEmptyBottle"));
             numberOfEmptyBottles--;
+            currentState.RemoveAt(currentState.Count - 1);
             adjustSecondRowSpacing();
         }
 
@@ -344,7 +347,7 @@ public class BottleSpawner : MonoBehaviour
         return null;
     }
 
-    private bool checkSuccess()
+    public bool checkSuccess()
     {
         for (int i = 0; i < numberOfFullBottles + numberOfEmptyBottles; i++)
         {

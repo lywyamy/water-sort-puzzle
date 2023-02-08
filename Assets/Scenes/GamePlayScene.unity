@@ -1478,6 +1478,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FirstBottle: {fileID: 0}
   SecondBottle: {fileID: 0}
+  bottleSpawner: {fileID: 1567324000}
 --- !u!4 &1579163973
 Transform:
   m_ObjectHideFlags: 0

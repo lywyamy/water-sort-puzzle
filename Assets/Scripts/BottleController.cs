@@ -41,10 +41,12 @@ public class BottleController : MonoBehaviour
     public LineRenderer lineRenderer;
 
     public Action animationForAutoSolution;
+    public BottleSpawner bottleSpawner;
 
     void Start()
     {
         updateBottle();
+        bottleSpawner = GameObject.Find("BottleSpawner").GetComponent<BottleSpawner>();
     }
 
     public void updateBottle()
@@ -208,6 +210,11 @@ public class BottleController : MonoBehaviour
         if (animationForAutoSolution != null)
         {
             animationForAutoSolution();
+        }
+
+        if (bottleSpawner.checkSuccess())
+        {
+            bottleSpawner.OpenGameOverScene();
         }
     }
 
