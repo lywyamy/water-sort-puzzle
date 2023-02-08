@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 public class BottleSpawner : MonoBehaviour
 
 {
-    // public static BottleSpawner instance;
-
     public GameObject bottlePrefab;
     private static int seed = 0;
     public System.Random random = new System.Random(seed);
