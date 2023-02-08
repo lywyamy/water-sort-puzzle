@@ -1,14 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BottleSpawner : MonoBehaviour
 
 {
+    // public static BottleSpawner instance;
+
     public GameObject bottlePrefab;
     private static int seed = 0;
     public System.Random random = new System.Random(seed);
     public Color[] colors;
-    public int numberOfFullBottles = 9;
+    public static int numberOfFullBottles = 4;
     public int numberOfEmptyBottles = 2;
     public List<BottleController> currentState;
 
@@ -22,7 +25,6 @@ public class BottleSpawner : MonoBehaviour
 
     void Start()
     {
-
         solved = false;
         currentState = new List<BottleController>();
         initialCorlorState = new List<Color[]>();
@@ -30,7 +32,7 @@ public class BottleSpawner : MonoBehaviour
         generateBottles(numberOfFullBottles);
     }
 
-    void generateBottles(int numberOfFullBottles)
+    public void generateBottles(int numberOfFullBottles)
     {
         Color[] colorPool = generateColorPool(colors, numberOfFullBottles);
         int index = 0;
@@ -372,5 +374,10 @@ public class BottleSpawner : MonoBehaviour
         {
             currentState[i].transform.position = new Vector3(Constants.LEFT_X + (i - numberOfBottlesOnFirstRow) * secondInteval, Constants.SECOND_ROW_Y, 0);
         }
+    }
+
+    public void OpenGameOverScene()
+    {
+        SceneManager.LoadScene("GameOverScene");
     }
 }
