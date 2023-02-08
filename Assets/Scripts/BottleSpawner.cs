@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class BottleSpawner : MonoBehaviour
 
 {
     public GameObject bottlePrefab;
-    private static int seed = 0;
+    private static int seed = 1;
     public System.Random random = new System.Random(seed);
     public Color[] colors;
     public static int numberOfFullBottles = 6;
@@ -21,8 +22,11 @@ public class BottleSpawner : MonoBehaviour
     public List<UserAction> solutionSteps;
     public int currentStep;
 
+    public Text levelNumber;
+
     void Start()
     {
+        levelNumber.text = seed.ToString();
         solved = false;
         currentState = new List<BottleController>();
         initialCorlorState = new List<Color[]>();
