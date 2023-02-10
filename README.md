@@ -1,6 +1,8 @@
+#### Inspired by the addictive game (original game available on [App Store](https://apps.apple.com/us/app/water-sort-puzzle/id1514542157) and [Google Play](https://play.google.com/store/apps/details?id=com.gma.water.sort.puzzle&hl=en_US&gl=US)), I recrated this game with Unity. Now, let's try to sort the colored waters until all colors are in one single bottle.
+
 ![Screenshot 2023-02-10 at 10 52 37 AM](https://user-images.githubusercontent.com/73914287/218174148-20333942-e462-48b1-948a-ca80e40f7dfc.png)
 
-#### Inspired by the addictive game (original game available on [App Store](https://apps.apple.com/us/app/water-sort-puzzle/id1514542157) and [Google Play](https://play.google.com/store/apps/details?id=com.gma.water.sort.puzzle&hl=en_US&gl=US)), I recrated this game with Unity. Now, let's try to sort the colored waters until all colors are in one single bottle.
+![Screenshot 2023-02-10 at 10 56 54 AM](https://user-images.githubusercontent.com/73914287/218175191-2bee2571-f8d9-4a90-9a48-8c5d8fc40be3.png)
 
 ## How to play?
 Click on one bottle and then another to pour the water. The action is successful when they have the same top color and the second bottle has available space, or the second bottle is empty. Note that, please wait for the current pouring animation to finish to click next bottle or button.
