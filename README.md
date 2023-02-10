@@ -19,5 +19,7 @@ Too hard to solve? Just add an extra empty bottle for your convenience. Resettin
 ## Solve
 Still struggling? The solve button can help out by automatically pouring the waters for you. The extra empty bottle will be removed if added earlier.
 
+![Screenshot 2023-02-10 at 10 57 43 AM](https://user-images.githubusercontent.com/73914287/218175577-4c2ad9b9-b47b-4cf3-8493-a73b7dfcf56f.png)
+
 ## Play on and on!
 Once a level is passed, you can select the next level with desired difficulty. Easy level has 6 bottles, medium level has 9 bottles, and hard level has 12 bottle. Keep playing on with the endless challenges!
