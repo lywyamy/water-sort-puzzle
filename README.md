@@ -1,3 +1,5 @@
+![Screenshot 2023-02-10 at 10 52 37 AM](https://user-images.githubusercontent.com/73914287/218174148-20333942-e462-48b1-948a-ca80e40f7dfc.png)
+
 #### Inspired by the addictive game (original game available on [App Store](https://apps.apple.com/us/app/water-sort-puzzle/id1514542157) and [Google Play](https://play.google.com/store/apps/details?id=com.gma.water.sort.puzzle&hl=en_US&gl=US)), I recrated this game with Unity. Now, let's try to sort the colored waters until all colors are in one single bottle.
 
 ## How to play?
