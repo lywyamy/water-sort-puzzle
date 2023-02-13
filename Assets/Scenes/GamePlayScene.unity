@@ -360,8 +360,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_Font: {fileID: 12800000, guid: dfb71931c82fe4e9aacf753a43e09311, type: 3}
+    m_FontSize: 25
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -372,7 +372,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: shortcut
+  m_Text: Skip
 --- !u!222 &294068588
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1585,7 +1585,7 @@ GameObject:
   - component: {fileID: 1690443653}
   - component: {fileID: 1690443652}
   m_Layer: 5
-  m_Name: GoToGameOver
+  m_Name: Skip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1609,8 +1609,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 861, y: -493}
-  m_SizeDelta: {x: 200, y: 100}
+  m_AnchoredPosition: {x: 1046, y: -522}
+  m_SizeDelta: {x: 90, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1690443652
 MonoBehaviour:
