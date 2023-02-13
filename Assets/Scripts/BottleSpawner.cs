@@ -28,6 +28,7 @@ public class BottleSpawner : MonoBehaviour
     {
         levelNumber.text = seed.ToString();
         solved = false;
+        numberOfEmptyBottles = 2;
         currentState = new List<BottleController>();
         initialCorlorState = new List<Color[]>();
         populateColors();
