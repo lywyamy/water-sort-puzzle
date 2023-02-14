@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class BottleSpawner : MonoBehaviour
 
 {
-    public static int numberOfFullBottles = 6;
+    public static int numberOfFullBottles = 9;
     public static int numberOfEmptyBottles = 2;
     private static int seed = 1;
 
